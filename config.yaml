@@ -1,0 +1,38 @@
+analyzer:
+  api_key_env: DEEPSEEK_API_KEY
+  base_url: https://api.deepseek.com/v1
+  max_tokens: 4096
+  model: deepseek-chat
+  provider: deepseek
+  temperature: 0.3
+bridge:
+  port: 5000
+  script: ./bridge.py
+env:
+  CLAUDE_CODE_GIT_BASH_PATH: D:\app\Git\bin\bash.exe
+pricing:
+  deepseek-chat:
+    input: 0.14
+    output: 0.28
+  deepseek-reasoner:
+    input: 0.55
+    output: 2.19
+server:
+  host: 127.0.0.1
+  port: 7799
+tools:
+  claude:
+    args:
+    - -p
+    command: claude
+    desc: 复杂代码、重构、架构设计
+    name: Claude Code
+  codex:
+    args:
+    - exec
+    - --skip-git-repo-check
+    - -m
+    - deepseek-v4-pro
+    command: codex
+    desc: 终端操作、脚本、测试、部署
+    name: Codex CLI
