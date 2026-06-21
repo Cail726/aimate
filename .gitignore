@@ -1,0 +1,23 @@
+# 零感调度器 (AIMate)
+# ── 敏感文件 ──
+.env
+*.env
+
+# ── Python ──
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# ── 系统 ──
+Thumbs.db
+.DS_Store
+*.log
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
