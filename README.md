@@ -23,7 +23,7 @@
 >
 > 调度器会拆成 3-4 个子任务，把"写代码"派给 Claude，把"跑测试 + Docker 化"派给 Codex，你看着进度条等结果就行。
 
-**零感调度器是 [零感品牌](https://github.com/零感科技) 的第二款开源工具**，延续"零门槛上手 AI"的理念——装好就能用，Web 界面操作，不需要记命令。
+**零感调度器是 [零感品牌](https://github.com/Cail726) 的第二款开源工具**，延续"零门槛上手 AI"的理念——装好就能用，Web 界面操作，不需要记命令。
 
 ---
 
@@ -68,7 +68,7 @@
 
 ```bash
 # 1. 克隆
-git clone https://github.com/零感科技/aimate.git
+git clone https://github.com/Cail726/aimate.git
 cd aimate
 
 # 2. 装依赖
@@ -195,12 +195,12 @@ Codex CLI：`npm install -g @anthropic-ai/codex`
 
 **零感 (LingGan)** — 零门槛上手 AI，激发编程灵感。
 
-- 🛠 [零感安装器](https://github.com/零感科技/ai-tools-installer) — AI 开发环境一键部署
+- 🛠 [零感安装器](https://github.com/Cail726/ai-tools-installer) — AI 开发环境一键部署
 - 🗓 零感调度器 (本项目) — AI 工具协同调度
 - 👥 QQ 群 **956118706** (零感实验室) — 交流答疑、教程分享
 
 ---
 
 <p align="center">
-  <sub>Made with ❤️ by 零感团队 · <a href="https://github.com/零感科技">GitHub</a> · QQ群 956118706</sub>
+  <sub>Made with ❤️ by 零感团队 · <a href="https://github.com/Cail726">GitHub</a> · QQ群 956118706</sub>
 </p>
