@@ -233,45 +233,42 @@ code { font-family: Consolas,"Courier New",monospace; background: rgba(255,255,2
 <!-- Slide 6: How to use -->
 <section>
   <h2>三步上手</h2>
-  <div class="steps" style="margin-top:60px">
+  <p style="font-size:24px;color:var(--dim);margin-top:12px">零感调度器是一个 Python 本地 Web 服务，启动后在浏览器里操作</p>
+  <div class="steps" style="margin-top:48px">
     <div class="step">
       <div class="num">1</div>
       <h3>获取项目</h3>
       <p style="font-size:20px;line-height:1.7">
-        打开 GitHub 页面<br>
-        点绿色 Code 按钮 → Download ZIP<br>
+        GitHub 页面点 Code →<br>Download ZIP 下载<br>
         解压到任意文件夹<br>
-        或命令行：<code>git clone</code> 仓库地址
+        或 <code>git clone</code> 仓库地址
       </p>
     </div>
     <div class="step">
       <div class="num">2</div>
-      <h3>安装并设 Key</h3>
+      <h3>安装依赖 + 设 Key</h3>
       <p style="font-size:20px;line-height:1.7">
-        双击 <code>start.bat</code> 自动装依赖<br>
-        去 platform.deepseek.com 注册<br>
+        双击 <code>start.bat</code> 自动安装<br>
+        Python 包（fastapi 等）<br>
         在项目文件夹新建 <code>.env</code><br>
-        写入：<code>DEEPSEEK_API_KEY=sk-你的key</code>
+        写入 <code>DEEPSEEK_API_KEY=sk-你的key</code>
       </p>
     </div>
     <div class="step">
       <div class="num">3</div>
-      <h3>启动调度器</h3>
+      <h3>启动</h3>
       <p style="font-size:20px;line-height:1.7">
-        双击 <code>start.bat</code><br>
-        自动打开浏览器 → 127.0.0.1:7799<br>
-        首次使用自动弹出帮助说明
+        双击 <code>start.bat</code> 启动服务<br>
+        自动打开浏览器<br>
+        地址：127.0.0.1:7799<br>
+        首次使用自动弹出帮助
       </p>
     </div>
   </div>
-  <div class="cta-box" style="margin-top:48px;display:flex;align-items:center;gap:32px;text-align:left">
-    <span style="font-size:52px">🖥️</span>
-    <div>
-      <p style="font-size:28px;color:var(--text)">桌面快捷方式</p>
-      <p style="font-size:22px;color:var(--dim)">右键 <code>start.bat</code> → 发送到桌面快捷方式 → 改名"零感调度器"<br>以后双击桌面图标就能启动</p>
-    </div>
+  <div class="cta-box" style="margin-top:48px">
+    <p style="font-size:28px;color:var(--text)">需要提前装好 Claude Code 和 Codex CLI</p>
+    <p style="font-size:20px;color:var(--dim);margin-top:6px">可用零感安装器一键部署 Claude Code · Codex 支持即将加入</p>
   </div>
-  <p style="font-size:22px;color:var(--muted);margin-top:20px;text-align:center">前提：已安装 Claude Code（可用零感安装器一键部署）和 Codex CLI</p>
 </section>
 
 <!-- Slide 7: How to get -->
@@ -370,7 +367,7 @@ code { font-family: Consolas,"Courier New",monospace; background: rgba(255,255,2
   "Slide 3 (20秒): 零感调度器的答案很简单：让 AI 自己分工。你输入需求，调度器分析后自动拆成二到五个子任务，判断哪个适合 Claude、哪个适合 Codex，然后依次执行。你只需要看着进度条等结果。你描述需求——调度器决定谁干什么。",
   "Slide 4 (20秒): 四个核心功能。智能拆解：自然语言输入，AI 分析后标注每个任务适合哪个工具，给出理由。实时执行：SSE 推送进度，状态、耗时、输出预览一目了然。Web 配置：点齿轮在浏览器改模型和参数，保存即时生效。费用追踪：每次分析抓取 token 消耗，按 DeepSeek 定价估算费用，点击徽章看历次明细。",
   "Slide 5 (20秒): 你只管用，麻烦事我们处理了。自动协同调度——分析需求后自动判断该用 Claude 还是 Codex，不用你手动在两个工具间切换。API Key 不落地——Key 只存在你电脑上，Web 页面永远看不到，不会泄露。工具状态一眼可知——页面加载自动检测 Claude 和 Codex 是否装好，没装的话 hover 看安装指引。双击就能跑——start.bat 自动装依赖、自动清端口、自动打开浏览器，代码全开源，你可以逐行审查。",
-  "Slide 6 (22秒): 三步上手，非常详细。第一步获取项目——打开 GitHub 页面，点绿色 Code 按钮，Download ZIP，解压到任意文件夹。或者用命令行 git clone。第二步安装并设 Key——双击 start.bat 自动装 Python 依赖。然后去 platform.deepseek.com 免费注册，在项目文件夹新建 .env 文件，写入 DEEPSEEK_API_KEY 等于你的 key。第三步启动——双击 start.bat，自动打开浏览器，首次使用自动弹出帮助说明。还可以右键 start.bat 发送到桌面快捷方式，改名零感调度器，以后双击桌面图标就能启动。前提是已安装 Claude Code 和 Codex CLI。",
+  "Slide 6 (20秒): 零感调度器是一个 Python 本地 Web 服务，启动后在浏览器里操作。三步上手。第一步，GitHub 页面点 Code 按钮 Download ZIP 下载，解压到任意文件夹。第二步，双击 start.bat 自动安装 Python 依赖，然后在项目文件夹新建 .env 文件，写入你的 DeepSeek API Key。第三步，双击 start.bat 启动服务，自动打开浏览器到 127.0.0.1:7799，首次使用自动弹出帮助。前提是装好 Claude Code 和 Codex CLI——Claude 可用零感安装器一键部署。",
   "Slide 7 (14秒): 怎么获取。完全开源免费。GitHub 搜 Cail726 slash aimate，点 Code Download ZIP 就能下载，无需注册。加入社群——零感实验室，交流答疑、教程分享，加群方式见 GitHub 仓库说明。配套零感安装器，Claude Code 一键部署。",
   "Slide 8 (10秒): 零感调度器，让 AI 替你分工。你只需要一个想法。"
 ]
