@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>零感调度器 AIMate — 产品介绍</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --purple: #7C3AED; --purple-light: #A78BFA; --purple-dim: rgba(124,58,237,.15);
+  --green: #10B981; --green-dim: rgba(16,185,129,.15);
+  --bg: #0F172A; --surface: #1E293B; --border: #334155;
+  --text: #F1F5F9; --dim: #94A3B8; --muted: #64748B;
+}
+html { font-size: 2.5px; }
+body {
+  background: #000; font-family: "PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+  display: flex; align-items: center; justify-content: center;
+  height: 100vh; overflow: hidden;
+}
+#stage {
+  width: 1920px; height: 1080px; position: relative; overflow: hidden;
+  transform-origin: center center; background: var(--bg);
+}
+section {
+  position: absolute; inset: 0; display: none;
+  padding: 80px 100px; color: var(--text);
+  flex-direction: column; hyphens: manual; -webkit-hyphens: manual;
+}
+section.active { display: flex; }
+
+/* Typography */
+h1 { font-size: 72px; font-weight: 800; line-height: 1.1; letter-spacing: -1px; }
+h2 { font-size: 52px; font-weight: 700; line-height: 1.15; }
+h3 { font-size: 32px; font-weight: 600; }
+.purple { color: var(--purple-light); }
+.green { color: var(--green); }
+.dim { color: var(--dim); }
+.muted { color: var(--muted); }
+code { font-family: Consolas,"Courier New",monospace; background: rgba(255,255,255,.06);
+  padding: 4px 12px; border-radius: 6px; font-size: 26px; }
+
+/* Nav */
+#nav { position: fixed; bottom: 16px; right: 20px; z-index: 100; display: flex;
+  gap: 6px; align-items: center; }
+#nav button { background: var(--surface); border: 1px solid var(--border); color: var(--dim);
+  padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+#nav button:hover { color: #fff; border-color: var(--purple); }
+#nav span { color: var(--dim); font-size: 12px; margin: 0 8px; }
+
+/* Slide-specific layouts — rhythm varies */
+.cover { justify-content: center; align-items: center; text-align: center; gap: 24px; }
+.cover img { height: 80px; margin-bottom: 16px; }
+.cover h1 { font-size: 88px; }
+.cover .sub { font-size: 36px; color: var(--dim); margin-top: 8px; }
+
+.content-top { justify-content: flex-start; }
+.content-center { justify-content: center; gap: 40px; }
+.row { display: flex; gap: 32px; align-items: stretch; }
+.col { flex: 1; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 36px 40px; display: flex; flex-direction: column; gap: 16px; }
+.card h3 { display: flex; align-items: center; gap: 14px; }
+.card p, .card li { font-size: 26px; line-height: 1.7; color: var(--dim); }
+.card li { margin-left: 24px; margin-bottom: 6px; }
+
+.big-number { font-size: 120px; font-weight: 900; line-height: 1; }
+.tag { display: inline-block; padding: 6px 16px; border-radius: 6px; font-size: 20px;
+  font-weight: 700; letter-spacing: 0.5px; }
+.tag.claude { background: rgba(212,115,63,.2); color: #d4733f; }
+.tag.codex { background: rgba(69,167,255,.2); color: #45a7ff; }
+
+.steps { display: flex; gap: 28px; }
+.step { flex: 1; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px 28px; text-align: center; }
+.step .num { width: 56px; height: 56px; border-radius: 50%; background: var(--purple-dim);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
+  font-size: 28px; font-weight: 700; color: var(--purple-light); }
+.step h3 { margin-bottom: 10px; }
+.step p { font-size: 22px; color: var(--dim); line-height: 1.6; }
+
+.fix-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.fix-item { background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  padding: 28px 32px; display: flex; gap: 20px; align-items: flex-start; }
+.fix-item .icon { font-size: 40px; min-width: 56px; text-align: center; }
+.fix-item h3 { font-size: 28px; margin-bottom: 6px; }
+.fix-item p { font-size: 22px; color: var(--dim); line-height: 1.6; }
+
+.cta-box { background: var(--purple-dim); border: 1px solid rgba(124,58,237,.3);
+  border-radius: 20px; padding: 48px 56px; text-align: center; }
+.cta-box .url { font-size: 48px; font-weight: 800; color: var(--purple-light);
+  letter-spacing: -0.5px; }
+
+.footer-row { display: flex; align-items: center; gap: 32px; margin-top: auto; padding-top: 24px;
+  border-top: 1px solid var(--border); }
+.footer-row img { height: 40px; }
+
+.quote { font-size: 38px; font-style: italic; color: var(--dim); text-align: center;
+  max-width: 1000px; line-height: 1.5; }
+.quote::before { content: '"'; }
+.quote::after { content: '"'; }
+
+.pain-point { display: flex; align-items: center; gap: 60px; }
+.pain-point .left { flex: 1; }
+.pain-point .right { width: 480px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 40px; }
+.pain-point .right .emoji { font-size: 80px; text-align: center; margin-bottom: 20px; }
+.pain-point .right p { font-size: 26px; color: var(--dim); text-align: center; line-height: 1.7; }
+
+.flow { display: flex; align-items: center; justify-content: center; gap: 24px; }
+.flow-box { background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 32px 28px; text-align: center; min-width: 220px; }
+.flow-box h3 { margin-bottom: 8px; }
+.flow-box p { font-size: 22px; color: var(--dim); }
+.flow-arrow { font-size: 36px; color: var(--purple-light); }
+</style>
+</head>
+<body>
+
+<div id="stage">
+<!-- Slide 1: Cover -->
+<section class="active cover">
+  <img src="../docs/零感-横版.svg" alt="零感 LingGan" style="height:80px">
+  <h1>零感调度器 <span class="purple">AIMate</span></h1>
+  <p class="sub">Claude Code + Codex CLI 协同调度器</p>
+  <p class="dim" style="font-size:28px;margin-top:12px">分析需求 → 智能拆解 → 分派给最适合的 AI 工具执行</p>
+  <p class="muted" style="font-size:20px;margin-top:40px">github.com/Cail726/aimate · QQ群 956118706</p>
+</section>
+
+<!-- Slide 2: Pain Point -->
+<section>
+  <h2>你有没有<br>遇到过？</h2>
+  <div class="pain-point" style="margin-top:60px">
+    <div class="left">
+      <div class="row" style="flex-direction:column;gap:24px">
+        <div class="card">
+          <p>复杂任务要在 Claude 和 Codex 之间来回切，<br>不知道该用哪个，效率低下</p>
+        </div>
+        <div class="card">
+          <p>想改个模型参数还得翻代码找配置文件，<br>没有可视化界面</p>
+        </div>
+        <div class="card">
+          <p>跑了多少次分析、花了多少 token，<br>完全不知道</p>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="emoji">🤯</div>
+      <p>两个 AI 工具都很好用<br>但我该<strong>什么时候用哪个</strong>？</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 3: Solution -->
+<section>
+  <h2>让 AI <span class="purple">自己分工</span></h2>
+  <div class="flow" style="margin-top:60px">
+    <div class="flow-box"><h3>📝</h3><p>输入需求</p></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box" style="border-color:var(--purple);background:var(--purple-dim)"><h3>🧠</h3><p>AI 自动拆解<br><span class="dim" style="font-size:18px">2-5 个子任务</span></p></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box"><span class="tag claude">Claude</span><p style="margin-top:8px">复杂代码<br>架构设计</p></div>
+    <span class="flow-arrow">+</span>
+    <div class="flow-box"><span class="tag codex">Codex</span><p style="margin-top:8px">终端操作<br>脚本测试</p></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-box" style="border-color:var(--green);background:var(--green-dim)"><h3>✅</h3><p>你看着<br>进度条等结果</p></div>
+  </div>
+  <p class="dim" style="text-align:center;margin-top:60px;font-size:28px">你只需要描述需求。调度器决定谁干什么。</p>
+</section>
+
+<!-- Slide 4: Features -->
+<section>
+  <h2>核心功能</h2>
+  <div class="row" style="margin-top:50px">
+    <div class="col">
+      <div class="card">
+        <h3><span style="color:var(--purple-light)">▸</span> 智能拆解</h3>
+        <p>自然语言输入，AI 分析后拆成 2-5 个独立子任务，标注每个任务适合哪个工具，给出理由</p>
+      </div>
+      <div class="card" style="margin-top:24px">
+        <h3><span style="color:var(--green)">▸</span> 实时执行</h3>
+        <p>SSE 推送进度，每个子任务的运行状态、耗时、输出预览一目了然</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <h3><span style="color:var(--purple-light)">▸</span> Web 配置</h3>
+        <p>点齿轮直接在浏览器改模型、temperature、API 端点。保存即时生效，不用碰配置文件</p>
+      </div>
+      <div class="card" style="margin-top:24px">
+        <h3><span style="color:var(--green)">▸</span> 费用追踪</h3>
+        <p>每次分析抓取 token 消耗，按定价估算费用。点击 ≈ $ 徽章查看历次明细</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 5: Problems Solved -->
+<section>
+  <h2>我们解决了<span class="purple">四个</span>真实问题</h2>
+  <div class="fix-grid" style="margin-top:50px">
+    <div class="fix-item">
+      <div class="icon">🔤</div>
+      <div>
+        <h3>CMD 乱码 / 命令被截断</h3>
+        <p>LF 换行 + GBK 代码页 → 批处理全用 CRLF + ASCII，<code>chcp 65001</code> 先切 UTF-8</p>
+      </div>
+    </div>
+    <div class="fix-item">
+      <div class="icon">🐛</div>
+      <div>
+        <h3>Jinja2 幽灵 Internal Server Error</h3>
+        <p>缓存键 bug + 页面无模板变量 → 去掉模板引擎，直接读文件返回</p>
+      </div>
+    </div>
+    <div class="fix-item">
+      <div class="icon">🔌</div>
+      <div>
+        <h3>端口被上次进程占用</h3>
+        <p>子进程不跟随父进程退出 → <code>start.bat</code> 启动前自动杀旧进程</p>
+      </div>
+    </div>
+    <div class="fix-item">
+      <div class="icon">🔐</div>
+      <div>
+        <h3>API Key 安全</h3>
+        <p>从环境变量/.env 读取 Key，页面上只填环境变量名，前端永远看不到 Key 值</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 6: How to use -->
+<section>
+  <h2>三步上手</h2>
+  <div class="steps" style="margin-top:60px">
+    <div class="step">
+      <div class="num">1</div>
+      <h3>安装依赖</h3>
+      <p><code>git clone</code><br>然后<br><code>pip install</code><br>五个 Python 包</p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <h3>设置 Key</h3>
+      <p><code>setx</code> 设环境变量<br>或写 .env 文件<br>DeepSeek 免费注册送额度</p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <h3>启动</h3>
+      <p><code>python server.py</code><br>或双击 <code>start.bat</code><br>浏览器打开 127.0.0.1:7799</p>
+    </div>
+  </div>
+  <div class="cta-box" style="margin-top:60px">
+    <p style="font-size:28px;color:var(--dim)">前提：Claude Code 和 Codex CLI 已安装（零感安装器用户天然满足）</p>
+  </div>
+</section>
+
+<!-- Slide 7: How to get -->
+<section class="content-center" style="text-align:center">
+  <h2>怎么获取</h2>
+  <div class="cta-box">
+    <p style="font-size:24px;color:var(--dim);margin-bottom:12px">开源免费 · GitHub</p>
+    <p class="url">github.com/Cail726/aimate</p>
+  </div>
+  <div class="row" style="gap:40px">
+    <div class="card" style="text-align:center;flex:1">
+      <h3 style="justify-content:center">👥 QQ 群</h3>
+      <p class="big-number green">956118706</p>
+      <p class="dim">零感实验室 · 交流答疑</p>
+    </div>
+    <div class="card" style="text-align:center;flex:1">
+      <h3 style="justify-content:center">🛠 配套工具</h3>
+      <p style="font-size:28px;color:var(--dim)">零感安装器</p>
+      <p class="dim">AI 开发环境一键部署<br>Claude Code + Codex 一步到位</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 8: Outro -->
+<section class="cover">
+  <img src="../docs/零感-横版.svg" alt="零感 LingGan" style="height:80px">
+  <h1>零感调度器</h1>
+  <p class="sub" style="font-size:40px">让 AI 替你分工</p>
+  <p class="quote" style="margin-top:20px">你只需要一个想法</p>
+  <div class="footer-row">
+    <span class="dim" style="font-size:28px">github.com/Cail726/aimate</span>
+    <span style="color:var(--border)">|</span>
+    <span class="green" style="font-size:28px">QQ群 956118706</span>
+    <span style="color:var(--border)">|</span>
+    <span class="dim" style="font-size:28px">零门槛上手AI，激发编程灵感</span>
+  </div>
+</section>
+</div>
+
+<div id="nav">
+  <button id="prev">←</button>
+  <span id="counter">1 / 8</span>
+  <button id="next">→</button>
+</div>
+
+<script>
+(function() {
+  const stage = document.getElementById('stage');
+  const slides = stage.querySelectorAll('section');
+  const total = slides.length;
+  let current = 0;
+
+  function scale() {
+    const W = 1920, H = 1080;
+    const scaleX = window.innerWidth / W;
+    const scaleY = window.innerHeight / H;
+    const s = Math.min(scaleX, scaleY);
+    stage.style.transform = `scale(${s})`;
+  }
+
+  function show(idx) {
+    slides[current].classList.remove('active');
+    current = (idx + total) % total;
+    slides[current].classList.add('active');
+    document.getElementById('counter').textContent = `${current + 1} / ${total}`;
+  }
+
+  document.getElementById('prev').addEventListener('click', () => show(current - 1));
+  document.getElementById('next').addEventListener('click', () => show(current + 1));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); show(current + 1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); show(0); }
+    if (e.key === 'End') { e.preventDefault(); show(total - 1); }
+  });
+
+  window.addEventListener('resize', scale);
+  scale();
+
+  // Touch swipe
+  let touchX = 0;
+  stage.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+  stage.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 80) show(dx > 0 ? current - 1 : current + 1);
+  });
+})();
+</script>
+
+<!-- Voiceover script — recording guide -->
+<script type="application/json" id="speaker-notes">
+[
+  "Slide 1 (8秒): 零感调度器 AIMate。Claude Code 和 Codex CLI 的协同调度器。你描述需求，它自动拆解，分派给最适合的 AI 工具执行。",
+  "Slide 2 (18秒): 你有没有遇到过这种情况？手头有复杂任务，又要在 Claude 之间切来切去——代码归 Claude 写，测试和部署不知道该用哪个。想改个模型参数还得翻代码找配置文件。跑了多少次分析、花了多少 token，完全没有概念。两个 AI 工具都很好用，但我到底该什么时候用哪个？",
+  "Slide 3 (20秒): 零感调度器的答案很简单：让 AI 自己分工。你输入需求，调度器分析后自动拆成二到五个子任务，判断哪个适合 Claude、哪个适合 Codex，然后依次执行。你只需要看着进度条等结果。你描述需求——调度器决定谁干什么。",
+  "Slide 4 (20秒): 四个核心功能。智能拆解：自然语言输入，AI 分析后标注每个任务适合哪个工具，给出理由。实时执行：SSE 推送进度，状态、耗时、输出预览一目了然。Web 配置：点齿轮在浏览器改模型和参数，保存即时生效。费用追踪：每次分析抓取 token 消耗，按 DeepSeek 定价估算费用，点击徽章看历次明细。",
+  "Slide 5 (22秒): 这项目是在 Windows 下开发的，我们踩了四个真实的坑，一一修好了。CMD 乱码——因为 LF 换行和 GBK 代码页，批处理全改用 CRLF。Jinja2 幽灵错误——缓存键有 bug，直接去掉模板引擎。端口占用——子进程不听父进程退出，启动前自动清端口。API Key 安全——从环境变量读取，页面永远看不到 Key 值。",
+  "Slide 6 (18秒): 三步上手。第一，git clone 然后 pip install 五个 Python 包。第二，设环境变量 DEEPSEEK_API_KEY，DeepSeek 免费注册送五百万 token。第三，python server.py 或双击 start.bat，浏览器打开 127.0.0.1:7799 就行了。前提是 Claude Code 和 Codex 已经装好——零感安装器用户天然满足。",
+  "Slide 7 (14秒): 获取方式。完全开源免费，GitHub 搜 Cail726 slash aimate。QQ 群 956118706，零感实验室，交流答疑。配套零感安装器，AI 开发环境一键部署。",
+  "Slide 8 (10秒): 零感调度器，让 AI 替你分工。你只需要一个想法。"
+]
+</script>
+</body>
+</html>
